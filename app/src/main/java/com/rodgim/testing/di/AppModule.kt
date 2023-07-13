@@ -2,10 +2,13 @@ package com.rodgim.testing.di
 
 import android.content.Context
 import androidx.room.Room
+import com.rodgim.testing.data.local.ShoppingDao
 import com.rodgim.testing.data.local.ShoppingItemDatabase
 import com.rodgim.testing.data.remote.PixabayAPI
 import com.rodgim.testing.other.Constants.BASE_URL
 import com.rodgim.testing.other.Constants.DATABASE_NAME
+import com.rodgim.testing.repositories.DefaultShoppingRepository
+import com.rodgim.testing.repositories.ShoppingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,4 +51,11 @@ object AppModule {
     fun providePixabayApi(
         retrofit: Retrofit
     ): PixabayAPI = retrofit.create(PixabayAPI::class.java)
+
+    @Singleton
+    @Provides
+    fun provideDefaultShoppingRepository(
+        dao: ShoppingDao,
+        api: PixabayAPI
+    ): ShoppingRepository = DefaultShoppingRepository(dao, api)
 }
