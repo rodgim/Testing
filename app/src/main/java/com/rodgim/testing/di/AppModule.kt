@@ -2,6 +2,9 @@ package com.rodgim.testing.di
 
 import android.content.Context
 import androidx.room.Room
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.rodgim.testing.R
 import com.rodgim.testing.data.local.ShoppingDao
 import com.rodgim.testing.data.local.ShoppingItemDatabase
 import com.rodgim.testing.data.remote.PixabayAPI
@@ -58,4 +61,14 @@ object AppModule {
         dao: ShoppingDao,
         api: PixabayAPI
     ): ShoppingRepository = DefaultShoppingRepository(dao, api)
+
+    @Singleton
+    @Provides
+    fun provideGlideInstance(
+        @ApplicationContext context: Context
+    ) = Glide.with(context).setDefaultRequestOptions(
+        RequestOptions()
+            .placeholder(R.drawable.ic_image)
+            .error(R.drawable.ic_image)
+    )
 }
